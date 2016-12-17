@@ -1,0 +1,6 @@
+node_modules/
+.idea/
+README.md
+tests.js
+coverage/
+.nyc_output/

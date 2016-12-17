@@ -1,0 +1,35 @@
+{
+  "name": "postcss-variable-media",
+  "version": "0.1.0",
+  "description": "PostCSS plugin that allows for defining custom variables to represent media queries",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha ./tests.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nathanhood/postcss-variable-media.git"
+  },
+  "keywords": [
+    "postcss",
+    "postcss-plugin",
+    "media",
+    "queries",
+    "variable",
+    "custom"
+  ],
+  "author": "Nathan Hood",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/nathanhood/postcss-variable-media/issues"
+  },
+  "homepage": "https://github.com/nathanhood/postcss-variable-media#readme",
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "chai-as-promised": "^6.0.0",
+    "mocha": "^3.2.0"
+  },
+  "dependencies": {
+    "postcss": "^5.2.6"
+  }
+}
