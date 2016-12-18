@@ -3,24 +3,98 @@
 [![codecov](https://codecov.io/gh/nathanhood/postcss-variable-media/branch/master/graph/badge.svg)](https://codecov.io/gh/nathanhood/postcss-variable-media)
 
 
-[PostCSS](https://github.com/postcss/postcss) plugin that allows for defining custom at-rules to represent media queries
+[PostCSS] plugin that allows for defining custom at-rules to represent media queries
+
+[PostCSS]: (https://github.com/postcss/postcss)
 
 ```css
-.foo {
-    /* Input example */
+@tablet {
+    background: #fff;
+}
+@desktop {
+	background: #000;
 }
 ```
 
 ```css
-.foo {
-  /* Output example */
+@media (min-width: 768px) {
+  background: #fff;
+}
+@media (min-width: 1024px) {
+	background: #000;
 }
 ```
 
 ## Usage
 
 ```js
-postcss([ require('PLUGIN_NAME') ])
+postcss([ require('postcss-variable-media') ])
 ```
 
 See [PostCSS] docs for examples for your environment.
+
+#### PostCSS
+
+Add [PostCSS](https://github.com/postcss/postcss) to your build tool:
+
+```bash
+npm install postcss --save-dev
+```
+
+Load PostCSS Variables as a PostCSS plugin:
+
+```js
+postcss([
+	require('postcss-variables')({ /* options */ })
+]);
+```
+
+## Options
+
+### `breakpoints`
+
+Type: `Object`  
+Default: `{}`
+
+Specifies breakpoint variables and pixel min-width values.
+
+```js
+require('postcss-variable-media')({
+	breakpoints: {
+		tablet: 768,
+		desktop: 1024
+	}
+});
+```
+
+### `consolidate`
+
+Type: `boolean`  
+Default: `true`
+
+Merge repeated breakpoint declarations and append to end of document. If set to false, breakpoints will be converted to media queries in place.
+
+```js
+require('postcss-variable-media')({
+	breakpoints: {
+		tablet: 768
+	},
+	consolidate: true
+});
+```
+
+```css
+@tablet {
+    background: #fff;
+}
+@tablet {
+	font-size: 14px;
+}
+```
+
+```css
+@media (min-width: 768px) {
+	background: #fff;
+	font-size: 14px;
+}
+```
