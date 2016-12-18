@@ -9,15 +9,15 @@
 [PostCSS]: (https://github.com/postcss/postcss)
 
 ```css
+/* before */
 @tablet {
     background: #fff;
 }
 @desktop {
 	background: #000;
 }
-```
 
-```css
+/* after */
 @media (min-width: 768px) {
   background: #fff;
 }
