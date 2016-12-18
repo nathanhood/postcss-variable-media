@@ -211,3 +211,57 @@ describe('media queries', () => {
 		);
 	});
 });
+
+describe('consolidated media queries', () => {
+	it('should be appended at the end of the document', () => {
+		return process(
+			`.block {
+				background: blue;
+			}
+			@tablet {
+				.block {
+					background: #fff;
+				}
+			}
+			@desktop {
+				.block {
+					background: yellow;
+				}
+			}
+			.block2 {
+				background: #f7f7f7;
+			}
+			@tablet {
+				.block2 {
+					background: #000;
+				}
+			}`,
+			`.block {
+				background: blue;
+			}
+			.block2 {
+				background: #f7f7f7;
+			}
+			@media (min-width: 768px) {
+				.block {
+					background: #fff;
+				}
+				.block2 {
+					background: #000;
+				}
+			}
+			@media (min-width: 1024px) {
+				.block {
+					background: yellow;
+				}
+			}`,
+			{
+				breakpoints: {
+					tablet: 768,
+					desktop: 1024
+				},
+				consolidate: true
+			}
+		);
+	});
+});
