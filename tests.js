@@ -53,7 +53,8 @@ describe('breakpoints', () => {
 
 	it('should be able to have multiple registered', () => {
 		return process(
-			`@mobile {
+			`
+			@mobile {
 				.block {
 					background: yellow;
 				}
@@ -68,7 +69,8 @@ describe('breakpoints', () => {
 					background: #000;
 				}
 			}`,
-			`@media (min-width: 450px) {
+			`
+			@media (min-width: 450px) {
 				.block {
 					background: yellow;
 				}
@@ -119,14 +121,14 @@ describe('breakpoints', () => {
 			}`,
 			`@import url('file.css');
 			@charset "UTF-8";
-			@media (min-width: 450px) {
-				.block {
-					background: yellow;
-				}
-			}
 			@media (min-width: 500px) {
 				.block {
 					background: blue;
+				}
+			}
+			@media (min-width: 450px) {
+				.block {
+					background: yellow;
 				}
 			}
 			@media (min-width: 768px) {
