@@ -2,6 +2,10 @@ const postcss = require('postcss');
 const escRgx = require('escape-string-regexp');
 
 module.exports = postcss.plugin('postcss-variable-media', (options = {}) => {
+	options = Object.assign({
+			consolidate: true
+		}, options);
+
 	let breakpoints = options.breakpoints || {},
 		breakpointRegex = registerBreakpoints(breakpoints),
 		registry = {};
