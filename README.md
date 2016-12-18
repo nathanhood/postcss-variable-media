@@ -11,18 +11,26 @@
 ```css
 /* before */
 @tablet {
-    background: #fff;
+	.selection {
+		background: #fff;
+	}
 }
 @desktop {
-	background: #000;
+	.selection {
+		background: #000;
+	}
 }
 
 /* after */
 @media (min-width: 768px) {
-  background: #fff;
+	.selection {
+		background: #fff;
+	}
 }
 @media (min-width: 1024px) {
-	background: #000;
+	.selection {
+		background: #000;
+	}
 }
 ```
 
@@ -86,16 +94,24 @@ require('postcss-variable-media')({
 
 ```css
 @tablet {
-    background: #fff;
+    .block1 {
+		background: #fff;
+	}
 }
 @tablet {
-	font-size: 14px;
+	.block2 {
+		font-size: 14px;
+	}
 }
 ```
 
 ```css
 @media (min-width: 768px) {
-	background: #fff;
-	font-size: 14px;
+	.block1 {
+		background: #fff;
+	}
+	.block2 {
+		font-size: 14px;
+	}
 }
 ```
