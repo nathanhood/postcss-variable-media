@@ -83,6 +83,8 @@ Default: `true`
 
 Merge repeated breakpoint declarations and append to end of document. If set to false, breakpoints will be converted to media queries in place.
 
+**Note:** If needing to consolidate across multiple stylesheets, refer to [css-mqpacker](https://github.com/hail2u/node-css-mqpacker).
+
 ```js
 require('postcss-variable-media')({
 	breakpoints: {

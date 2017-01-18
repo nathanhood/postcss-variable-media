@@ -84,6 +84,10 @@ module.exports = postcss.plugin('postcss-variable-media', (options = {}) => {
 				convertBreakpointToMedia(rule);
 				root.append(rule);
 			});
+
+			// Reset registry after finishing each file/module
+			// Use mqpacker for consolidating across multiple stylesheets
+			registry = {};
 		} else {
 			root.walkAtRules(rule => {
 				if (breakpointRegex.test(rule.name)) {
