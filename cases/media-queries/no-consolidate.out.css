@@ -1,0 +1,10 @@
+@media (min-width: 768px) {
+    .block {
+        background: #fff;
+    }
+}
+@media (min-width: 768px) {
+    .block2 {
+        background: #000;
+    }
+}

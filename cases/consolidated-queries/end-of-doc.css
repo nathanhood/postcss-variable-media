@@ -1,0 +1,21 @@
+.block {
+    background: blue;
+}
+@tablet {
+    .block {
+        background: #fff;
+    }
+}
+@desktop {
+    .block {
+        background: yellow;
+    }
+}
+.block2 {
+    background: #f7f7f7;
+}
+@tablet {
+    .block2 {
+        background: #000;
+    }
+}

@@ -1,0 +1,8 @@
+@media (min-width: 768px) {
+    .block {
+        background: #fff
+    }
+    .block2 {
+        background: #000
+    }
+}

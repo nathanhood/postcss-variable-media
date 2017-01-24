@@ -1,0 +1,16 @@
+@mobile {
+	.block {
+		background: yellow;
+	}
+}
+@tablet {
+	.block {
+		background: #fff;
+	  	color: blue;
+	}
+}
+@desktop {
+	.block {
+		background: #000;
+	}
+}

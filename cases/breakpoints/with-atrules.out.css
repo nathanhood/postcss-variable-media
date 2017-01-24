@@ -1,0 +1,20 @@
+@media (min-width: 500px) {
+	.block {
+		background: blue;
+	}
+}
+@media (min-width: 450px) {
+	.block {
+		background: yellow;
+	}
+}
+@media (min-width: 768px) {
+	.block {
+		background: #fff;
+	}
+}
+@media (min-width: 1024px) {
+	.block {
+		background: #000;
+	}
+}

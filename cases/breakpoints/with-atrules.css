@@ -1,0 +1,20 @@
+@mobile {
+	.block {
+		background: yellow;
+	}
+}
+@media (min-width: 500px) {
+	.block {
+		background: blue;
+	}
+}
+@tablet {
+	.block {
+		background: #fff;
+	}
+}
+@desktop {
+	.block {
+		background: #000;
+	}
+}

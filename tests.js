@@ -2,6 +2,7 @@ const expect = require('chai').expect;
 const should = require('chai').should;
 const postcss = require('postcss');
 const plugin = require('./');
+const fs = require('fs');
 
 function process(input, expected, opts = {}, warnings = 0) {
 	return postcss([ plugin(opts) ]).process(input)
@@ -11,38 +12,24 @@ function process(input, expected, opts = {}, warnings = 0) {
 		});
 }
 
+function file(path) {
+	return fs.readFileSync(path, 'utf-8');
+}
+
 describe('module', () => {
 	it('should throw warning if referenced breakpoint does not exist', () => {
-		return process(
-			`@tablet {
-				.block {
-					background: #fff;
-				}
-			}`,
-			`@tablet {
-				.block {
-					background: #fff;
-				}
-			}`,
-			{},
-			1
-		);
+		let input = file('./cases/module-input.css');
+
+		return process(input, input, {}, 1);
 	});
 });
 
 describe('breakpoints', () => {
 	it('should be replaced with min-width media queries', () => {
-		return process(
-			`@tablet {
-				.block {
-					background: #fff;
-				}
-			}`,
-			`@media (min-width: 768px) {
-				.block {
-					background: #fff;
-				}
-			}`,
+		let input = file('./cases/breakpoints/base.css'),
+			output = file('./cases/breakpoints/base.out.css');
+
+		return process(input, output,
 			{
 				breakpoints: {
 					tablet: 768
@@ -52,218 +39,64 @@ describe('breakpoints', () => {
 	});
 
 	it('should be able to have multiple registered', () => {
-		return process(
-			`
-			@mobile {
-				.block {
-					background: yellow;
-				}
-			}
-			@tablet {
-				.block {
-					background: #fff;
-				}
-			}
-			@desktop {
-				.block {
-					background: #000;
-				}
-			}`,
-			`
-			@media (min-width: 450px) {
-				.block {
-					background: yellow;
-				}
-			}
-			@media (min-width: 768px) {
-				.block {
-					background: #fff;
-				}
-			}
-			@media (min-width: 1024px) {
-				.block {
-					background: #000;
-				}
-			}`,
-			{
+		let path = './cases/breakpoints/multiple-registered';
+
+		return process(file(path + '.css'), file(path + '.out.css'), {
 				breakpoints: {
 					mobile: 450,
 					tablet: 768,
 					desktop: 1024
 				}
-			}
-		);
+			});
 	});
 
 	it('should not be confused with regular atRules', () => {
-		return process(
-			`@import url('file.css');
-			@charset "UTF-8";
-			@mobile {
-				.block {
-					background: yellow;
-				}
-			}
-			@media (min-width: 500px) {
-				.block {
-					background: blue;
-				}
-			}
-			@tablet {
-				.block {
-					background: #fff;
-				}
-			}
-			@desktop {
-				.block {
-					background: #000;
-				}
-			}`,
-			`@import url('file.css');
-			@charset "UTF-8";
-			@media (min-width: 500px) {
-				.block {
-					background: blue;
-				}
-			}
-			@media (min-width: 450px) {
-				.block {
-					background: yellow;
-				}
-			}
-			@media (min-width: 768px) {
-				.block {
-					background: #fff;
-				}
-			}
-			@media (min-width: 1024px) {
-				.block {
-					background: #000;
-				}
-			}`,
-			{
+		let path = './cases/breakpoints/with-atrules';
+
+		return process(file(path + '.css'), file(path + '.out.css'), {
 				breakpoints: {
 					mobile: 450,
 					tablet: 768,
 					desktop: 1024
 				}
-			}
-		);
+			});
 	});
 });
 
 describe('media queries', () => {
 	it('should be consolidated when options.consolidate = true', () => {
-		return process(
-			`@tablet {
-				.block {
-					background: #fff;
-				}
-			}
-			@tablet {
-				.block2 {
-					background: #000;
-				}
-			}`,
-			`@media (min-width: 768px) {
-				.block {
-					background: #fff;
-				}
-				.block2 {
-					background: #000;
-				}
-			}`,
-			{
+		let path = './cases/media-queries/consolidate';
+
+		return process(file(path + '.css'), file(path + '.out.css'), {
 				breakpoints: {
 					tablet: 768
 				},
 				consolidate: true
-			}
-		);
+			});
 	});
 
 	it('should be left in place if options.consolidate = false', () => {
-		return process(
-			`@tablet {
-				.block {
-					background: #fff;
-				}
-			}
-			@tablet {
-				.block2 {
-					background: #000;
-				}
-			}`,
-			`@media (min-width: 768px) {
-				.block {
-					background: #fff;
-				}
-			}
-			@media (min-width: 768px) {
-				.block2 {
-					background: #000;
-				}
-			}`,
-			{
+		let path = './cases/media-queries/no-consolidate';
+
+		return process(file(path + '.css'), file(path + '.out.css'), {
 				breakpoints: {
 					tablet: 768
 				},
 				consolidate: false
-			}
-		);
+			});
 	});
 });
 
 describe('consolidated media queries', () => {
 	it('should be appended at the end of the document', () => {
-		return process(
-			`.block {
-				background: blue;
-			}
-			@tablet {
-				.block {
-					background: #fff;
-				}
-			}
-			@desktop {
-				.block {
-					background: yellow;
-				}
-			}
-			.block2 {
-				background: #f7f7f7;
-			}
-			@tablet {
-				.block2 {
-					background: #000;
-				}
-			}`,
-			`.block {
-				background: blue;
-			}
-			.block2 {
-				background: #f7f7f7;
-			}
-			@media (min-width: 768px) {
-				.block {
-					background: #fff;
-				}
-				.block2 {
-					background: #000;
-				}
-			}
-			@media (min-width: 1024px) {
-				.block {
-					background: yellow;
-				}
-			}`,
-			{
+		let path = './cases/consolidated-queries/end-of-doc';
+
+		return process(file(path + '.css'), file(path + '.out.css'), {
 				breakpoints: {
 					tablet: 768,
 					desktop: 1024
 				},
 				consolidate: true
-			}
-		);
+			});
 	});
 });
