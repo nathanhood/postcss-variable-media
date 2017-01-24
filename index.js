@@ -40,6 +40,7 @@ module.exports = postcss.plugin('postcss-variable-media', (options = {}) => {
 		rule.params = `(min-width: ${breakpoints[rule.name]}px)`;
 		rule.name = 'media';
 		rule.raws.afterName = ' ';
+		rule.raws.between = ' ';
 
 		return rule;
 	}
@@ -59,6 +60,7 @@ module.exports = postcss.plugin('postcss-variable-media', (options = {}) => {
 				name: rule.name,
 				params: rule.params,
 				raws: Object.assign({}, rule.raws),
+				parent: rule.parent,
 				nodes: rule.nodes
 			});
 		}
