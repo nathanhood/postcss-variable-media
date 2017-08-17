@@ -56,13 +56,7 @@ module.exports = postcss.plugin('postcss-variable-media', (options = {}) => {
 		if (registry.hasOwnProperty(name)) {
 			registry[name].nodes = (registry[name].nodes || []).concat(rule.nodes);
 		} else {
-			registry[name] = postcss.atRule({
-				name: rule.name,
-				params: rule.params,
-				raws: Object.assign({}, rule.raws),
-				parent: rule.parent,
-				nodes: rule.nodes
-			});
+			registry[name] = rule.clone();
 		}
 	}
 
@@ -82,9 +76,20 @@ module.exports = postcss.plugin('postcss-variable-media', (options = {}) => {
 
 			Object.keys(registry).forEach(key => {
 				let rule = registry[key];
+				let before = rule.raws.before;
 
 				convertBreakpointToMedia(rule);
 				root.append(rule);
+				
+				// This is a hack to ensure that more readable unminified format
+				// is retained for top level at-rules that are
+				// being appended. root.append was causing before: '\n'
+				// to be stripped out so that it was only before: ''
+				let appendedRule = root.nodes[root.nodes.length - 1];
+				
+				if (appendedRule.prev()) {
+					appendedRule.raws.before = '\n';
+				}
 			});
 
 			// Reset registry after finishing each file/module

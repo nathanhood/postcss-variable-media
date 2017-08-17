@@ -13,7 +13,7 @@ function process(input, expected, opts = {}, warnings = 0) {
 }
 
 function file(path) {
-	return fs.readFileSync(path, 'utf-8');
+	return fs.readFileSync(path, 'utf8');
 }
 
 describe('module', () => {

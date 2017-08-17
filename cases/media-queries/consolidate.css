@@ -1,10 +1,10 @@
 @tablet {
-  	.block {
-		background: #fff;
-  	}
+    .block {
+        background: #fff;
+    }
 }
 @tablet {
-  	.block2 {
-		background: #000;
-  	}
+    .block2 {
+        background: #000;
+    }
 }
