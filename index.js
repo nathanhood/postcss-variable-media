@@ -54,7 +54,7 @@ module.exports = postcss.plugin('postcss-variable-media', (options = {}) => {
 		let name = rule.name;
 
 		if (registry.hasOwnProperty(name)) {
-			registry[name].nodes = (registry[name].nodes || []).concat(rule.nodes);
+			rule.nodes.forEach(rule => registry[name].append(rule));
 		} else {
 			registry[name] = rule.clone();
 		}
