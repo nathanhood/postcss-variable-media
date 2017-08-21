@@ -54,7 +54,11 @@ module.exports = postcss.plugin('postcss-variable-media', (options = {}) => {
 		let name = rule.name;
 
 		if (registry.hasOwnProperty(name)) {
-			rule.nodes.forEach(rule => registry[name].append(rule));
+			// `each` allows for safe looping while modifying the
+			// array being looped over. `append` is removing the rule
+			// from the array being looped over, so it is necessary
+			// to use this method instead of forEach 
+			rule.each(r => registry[name].append(r));
 		} else {
 			registry[name] = rule.clone();
 		}
