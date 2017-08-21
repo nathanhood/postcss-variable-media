@@ -1,6 +1,6 @@
 {
   "name": "postcss-variable-media",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "PostCSS plugin that allows for defining custom variables to represent media queries",
   "main": "index.js",
   "scripts": {
